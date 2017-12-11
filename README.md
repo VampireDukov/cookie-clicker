@@ -3,6 +3,7 @@ Cookie clicker game
 
 How to install:
 - only download repos and launch index.html
+
 How to used:
 
 - click on cookie icon to increase cookies
