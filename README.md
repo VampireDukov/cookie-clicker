@@ -11,5 +11,6 @@ How to used:
 - cookies producers will increase cookies per second
 
 COOKIES AND DATABASE DOESN'T WORK LOCALLY, it works only in server. Checked on Chromium Web Browser and Mozilla Firefox on Fedora Workstation.
+
 Demo:
 http://dukov.pl/clicker
