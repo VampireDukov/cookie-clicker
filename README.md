@@ -12,6 +12,8 @@ How to used:
 
 COOKIES AND DATABASE DOESN'T WORK LOCALLY, it works only in server. Checked on Chromium Web Browser and Mozilla Firefox on Fedora Workstation.
 
+IF DATABASE DOESN'T WORK ON REMOTE SERVER OR LOCAL SERVER TRY DELETE COOKIES
+
 Demo:
 http://dukov.pl/clicker
 
@@ -28,3 +30,5 @@ Jak grać?
 - aby kupić producenta na ikonę należy kliknąć
 
 CIASTECZKA I ZAPIS DO BAZY NIE DZIAŁAJĄ PO ZWYKŁYM ŚCIĄGNIĘCIU PLIKU I DWUKLIKU NA index.html, NALEŻY POSTAWIĆ SERWER, LUB WEJŚĆ W PODANEGO WYŻEJ LINKA
+
+JEŚLI NIE DZIAŁA ZAPIS DO BAZY DANYCH NA SERWERZE ZDALNYM, BĄDŹ APACHE SPRÓBUJ WYCZYŚCIĆ CIASTECZKA
