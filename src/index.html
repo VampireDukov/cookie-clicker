@@ -413,14 +413,14 @@ function checkCookie(){
 	var check = getCookie('user');	
 	
 	if (check === 'game') {
-		loadFromDB();
+		return;
 	}
 	else{
 		setCookie('user','game',180);
 		$('.cookie_alert').slideDown(600);
 	}
 }
-
+loadFromDB();
 checkCookie();
 addEvent();
    
