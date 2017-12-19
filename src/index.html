@@ -222,102 +222,102 @@ window.addEventListener("DOMContentLoaded", function(){
 
 
 //baza
-function saveToDB(){
-	var indexedDB = window.indexedDB || window.mozIndexedDB || window.webkitIndexedDB || window.msIndexedDB || window.shimIndexedDB;
-	var open = indexedDB.open("DataStore", 1);
-	open.onupgradeneeded = function() {
-    	var db = open.result;
-    	var store = db.createObjectStore("DataStore", {keyPath: "id"});
-    	var index = store.createIndex("NameIndex", ["data.first", "data.second","data.third"]);
-	};
-	open.onsuccess = function() {
-   		var db = open.result;
-    	var tx = db.transaction("DataStore", "readwrite");
-    	var store = tx.objectStore("DataStore");
-    	var index = store.index("NameIndex");
-		store.put({id: 1, data: {first: producer_costs, second: cookiequan, third: cookiesowned.textContent}});
-		tx.oncomplete = function() {
-        	db.close();
-    	};
+	function saveToDB(){
+		var indexedDB = window.indexedDB || window.mozIndexedDB || window.webkitIndexedDB || window.msIndexedDB || window.shimIndexedDB;
+		var open = indexedDB.open("DataStore", 1);
+		open.onupgradeneeded = function() {
+    		var db = open.result;
+    		var store = db.createObjectStore("DataStore", {keyPath: "id"});
+    		var index = store.createIndex("NameIndex", ["data.first", "data.second","data.third"]);
+		};
+		open.onsuccess = function() {
+   			var db = open.result;
+    		var tx = db.transaction("DataStore", "readwrite");
+    		var store = tx.objectStore("DataStore");
+    		var index = store.index("NameIndex");
+			store.put({id: 1, data: {first: producer_costs, second: cookiequan, third: cookiesowned.textContent}});
+			tx.oncomplete = function() {
+        		db.close();
+    		};
+		}
 	}
-}
-function loadFromDB(){
-	var indexedDB = window.indexedDB || window.mozIndexedDB || window.webkitIndexedDB || window.msIndexedDB || window.shimIndexedDB;
-	var open = indexedDB.open("DataStore", 1);
-	open.onsuccess = function() {
-		var db = open.result;
-    	var tx = db.transaction("DataStore", "readwrite");
-    	var store = tx.objectStore("DataStore");
-    	var index = store.index("NameIndex");
-		var getData = store.get(1);
-    	getData.onsuccess = function() {
-			let array = getData.result.data.first;
-        	for (let i = 0;i<array.length ;i++){
-        	producer_costs[i] = array[i];
-        		document.getElementsByClassName('cost')[i].textContent = producer_costs[i].toFixed(0);
-        	} 
-        	array = getData.result.data.second;
-        	cookiequan = array;
-   			var quan = [];
-   			for (let i =0; i<cookies.length;i++){
-   				quan[i] = cookiepersec[i]*array[i];
-   				if (!isNaN(quan[[i]])){
-   					countCookiesPerSecond(quan[i]);
-   					document.getElementsByClassName('product')[i].textContent = quan[i];
-   				}
+	function loadFromDB(){
+		var indexedDB = window.indexedDB || window.mozIndexedDB || window.webkitIndexedDB || window.msIndexedDB || window.shimIndexedDB;
+		var open = indexedDB.open("DataStore", 1);
+		open.onsuccess = function() {
+			var db = open.result;
+    		var tx = db.transaction("DataStore", "readwrite");
+    		var store = tx.objectStore("DataStore");
+    		var index = store.index("NameIndex");
+			var getData = store.get(1);
+    		getData.onsuccess = function() {
+				let array = getData.result.data.first;
+        		for (let i = 0;i<array.length ;i++){
+        		producer_costs[i] = array[i];
+        			document.getElementsByClassName('cost')[i].textContent = producer_costs[i].toFixed(0);
+        		} 
+        		array = getData.result.data.second;
+        		cookiequan = array;
+   				var quan = [];
+   				for (let i =0; i<cookies.length;i++){
+   					quan[i] = cookiepersec[i]*array[i];
+   					if (!isNaN(quan[[i]])){
+   						countCookiesPerSecond(quan[i]);
+   						document.getElementsByClassName('product')[i].textContent = quan[i];
+   					}
+        		}
+        		cookie.quan = parseInt(getData.result.data.third);
+        		for (let i = 0 ; i<cookiequan.length;i++){
+        			addValueProducers(i);
+        		}
+    		};
+			tx.oncomplete = function() {
+        		db.close();
+    		};
+		}
+	}
+	createBody(producer_costs);
+	document.getElementById('save').addEventListener('click', saveToDB);
+	cookie.incresepersec();
+		document.getElementById('clicker').addEventListener('click', function(){
+			cookie.increase();
+		});
+	function setCookie(cname, cvalue, exdays) {
+    	var d = new Date();
+    	d.setTime(d.getTime() + (exdays*24*60*60*1000));
+    	var expires = "expires="+ d.toUTCString();
+    	document.cookie = cname + "=" + cvalue + ";" + expires + ";path=/";
+	}
+	function getCookie(cname) {
+    	var name = cname + "=";
+    	var decodedCookie = decodeURIComponent(document.cookie);
+    	var ca = decodedCookie.split(';');
+    	for(var i = 0; i <ca.length; i++) {
+        	var c = ca[i];
+        	while (c.charAt(0) == ' ') {
+            	c = c.substring(1);
         	}
-        	cookie.quan = parseInt(getData.result.data.third);
-        	for (let i = 0 ; i<cookiequan.length;i++){
-        		addValueProducers(i);
+        	if (c.indexOf(name) == 0) {
+            	return c.substring(name.length, c.length);
         	}
-    	};
-		tx.oncomplete = function() {
-        	db.close();
-    	};
+    	}
+    	return "";
 	}
-}
-createBody(producer_costs);
-document.getElementById('save').addEventListener('click', saveToDB);
-cookie.incresepersec();
-	 document.getElementById('clicker').addEventListener('click', function(){
-		cookie.increase();
-	});
-function setCookie(cname, cvalue, exdays) {
-    var d = new Date();
-    d.setTime(d.getTime() + (exdays*24*60*60*1000));
-    var expires = "expires="+ d.toUTCString();
-    document.cookie = cname + "=" + cvalue + ";" + expires + ";path=/";
-}
-function getCookie(cname) {
-    var name = cname + "=";
-    var decodedCookie = decodeURIComponent(document.cookie);
-    var ca = decodedCookie.split(';');
-    for(var i = 0; i <ca.length; i++) {
-        var c = ca[i];
-        while (c.charAt(0) == ' ') {
-            c = c.substring(1);
-        }
-        if (c.indexOf(name) == 0) {
-            return c.substring(name.length, c.length);
-        }
-    }
-    return "";
-}
-function checkCookie(){
-	var check = getCookie('user');	
-	
-	if (check === 'game') {
-		return;
+	function checkCookie(){
+		var check = getCookie('user');	
+		if (check === 'game') {
+			return;
+		}
+		else{
+			setCookie('user','game',180);
+			$('.cookie_alert').slideDown(600);
+		}
 	}
-	else{
-		setCookie('user','game',180);
-		$('.cookie_alert').slideDown(600);
-	}
-}
-loadFromDB();
-checkCookie();
-addEvent();
+	loadFromDB();
+	checkCookie();
+	addEvent();
 });
+
 $(document).ready(function(){
 	$(".menubutton").hover(function(){
   		$(this).fadeTo(10,1, function(){
