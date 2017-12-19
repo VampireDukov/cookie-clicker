@@ -104,6 +104,10 @@ window.addEventListener("DOMContentLoaded", function(){
 			}, 1000);
 		},
 	}
+	/**
+	* konstruktor obiektu producenta
+	*@var x typ cos
+	**/
 	function dataObject (x) {
 		this.costs = Math.round(producer_costs[x]);
  		this.producer;
@@ -118,6 +122,10 @@ window.addEventListener("DOMContentLoaded", function(){
     		return cookiepersec[x];
    		};
     }
+	/** funkcja zaokrąglająca
+	* @n v
+	**/
+
 	function Round(n, k){
 
 		var factor = Math.pow(10, k);
@@ -199,7 +207,7 @@ window.addEventListener("DOMContentLoaded", function(){
  		}
 	}
    	function addEvent(){
-    	var array = ['cursor','granny'];
+    	var array = [];
 		for (var i = 0; i <= items.length-1; i++){
   			(function(x) {
   				items[x].addEventListener('click', function(e){
@@ -242,7 +250,7 @@ window.addEventListener("DOMContentLoaded", function(){
 		}
 	}
 	function loadFromDB(){
-		var indexedDB = window.indexedDB || window.mozIndexedDB || window.webkitIndexedDB || window.msIndexedDB || window.shimIndexedDB;
+		var indexedDB = window.indexedDB || window.webkitIndexedDB || window.msIndexedDB || window.shimIndexedDB;
 		var open = indexedDB.open("DataStore", 1);
 		open.onsuccess = function() {
 			var db = open.result;
