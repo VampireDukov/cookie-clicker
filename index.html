@@ -1,0 +1,455 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Cookie clicker</title>
+	<meta charset="utf-8">
+	<meta http-equiv="Content-Language" content="pl, en">
+	<meta name="author"    content="Adam Jambor">
+	<meta name="copyright" content="(c)2017 Adam Jambor">
+	<meta name="reply-to"  content="ajjambor912@gmail.com">
+	<meta name="publisher" content="Adam Jambor">
+	<meta name="Description" content="Adam Jambor - Junior Front End Developer Portfolio">
+	<meta name="keywords" content="cookie clicker, clicker, cookie, game cookie, game cookie clicker, game clicker">
+
+
+	<link rel="apple-touch-icon" sizes="57x57" href="favicons/apple-icon-57x57.png">
+	<link rel="apple-touch-icon" sizes="60x60" href="favicons/apple-icon-60x60.png">
+	<link rel="apple-touch-icon" sizes="72x72" href="favicons/apple-icon-72x72.png">
+	<link rel="apple-touch-icon" sizes="76x76" href="favicons/apple-icon-76x76.png">
+	<link rel="apple-touch-icon" sizes="114x114" href="favicons/apple-icon-114x114.png">
+	<link rel="apple-touch-icon" sizes="120x120" href="favicons/apple-icon-120x120.png">
+	<link rel="apple-touch-icon" sizes="144x144" href="favicons/apple-icon-144x144.png">
+	<link rel="apple-touch-icon" sizes="152x152" href="favicons/apple-icon-152x152.png">
+	<link rel="apple-touch-icon" sizes="180x180" href="favicons/apple-icon-180x180.png">
+	<link rel="icon" type="image/png" sizes="192x192"  href="favicons/android-icon-192x192.png">
+	<link rel="icon" type="image/png" sizes="32x32" href="favicons/favicon-32x32.png">
+	<link rel="icon" type="image/png" sizes="96x96" href="favicons/favicon-96x96.png">
+	<link rel="icon" type="image/png" sizes="16x16" href="favicons/favicon-16x16.png">
+	<link rel="manifest" href="/manifest.json">
+	<meta name="msapplication-TileColor" content="#ffffff">
+	<meta name="msapplication-TileImage" content="favicons/ms-icon-144x144.png">
+	<meta name="theme-color" content="#ffffff">
+	
+	<link rel="stylesheet" type="text/css" href='styles/css.css'>
+		
+	<link href='http://fonts.googleapis.com/css?family=Allan&subset=latin,latin-ext' rel='stylesheet' type='text/css'>
+
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+	
+</head>
+<body>
+	<section id="head">
+		<header>
+			<div class="cookie_alert">
+				
+				<h3>Hej, korzystamy z cookies. Jeśli się na to nie zgadzasz opuść tę stronę.</h3>
+				<h3>Chociaż pewnie będziesz żałował</h3>
+				<button id="close" class="close">Close</button>
+			</div>
+			<div class="container">
+				<div class="save">
+					<img id="save" class="save" src="icons/save.png">
+				</div>
+				<h1>Cookie clicker</h1>
+				<h2 class="cookie">Ilość ciastek: <span id="cookiesowned" class='cookies_quan'>0</span></h2>
+				<h3>Na sekundę: <span id="cookiespersecond" class="cookies_quan">0</span></h3>	
+			</div>
+		</header>
+		<div  class="container">
+			<img id="clicker" class="clicker icons" src="icons/muffin.png">
+		
+		</div>
+	</section>	
+	<section id="content">
+		<div class="container">
+			<h2 class="producers">Producenci</h2>
+			<div id="target" class="target">
+				
+			</div>
+			
+		</div>
+	</section>
+	<footer>
+		<h3>Created by Adam Jambor</h3>
+	</footer>
+<script type="text/javascript">
+	
+window.addEventListener("DOMContentLoaded", function(){
+
+	/*Jak dodać nowego producenta w 2 krokach, do tego w css należy zmienić szerokość w klasie .cell 100/ilość producentów*/	
+
+	
+	var cookiesowned = document.getElementById('cookiesowned');
+	const factor = 1.5;
+	const items = document.getElementsByClassName('menubutton');
+	
+	//1. Dodanie kosztu producenta do producers_cost, do cookiepersec dodać ilość produkowanych ciastek
+	var producer_costs =[15,100,1100,12000,130000];
+	var cookiepersec = [0.1,1,8,47,260];
+	
+
+	var cookies = [];
+	var cookiequan = [];
+	
+	var val=0;
+	var persecond = document.getElementById('cookiespersecond');
+	var check;
+	var i = 0;
+	var cookie = {
+		quan: parseInt(cookiesowned.textContent),
+		quanpersec: 0,
+		increase: function(quan){
+			
+			
+			let quantity = this.quan++;
+			cookiesowned.textContent = quantity.toFixed(0);
+
+		},
+		incresepersec: function(){
+			
+			setInterval(function(){ 
+				
+				cookie.quan = cookie.quan + val;
+				cookiesowned.textContent = cookie.quan.toFixed(0);		
+				document.title = cookie.quan.toFixed(0)+' cookies';
+			
+			}, 1000);
+		},
+		
+	}
+
+	
+
+	
+	function dataObject (x) {
+		
+    	this.costs = Math.round(producer_costs[x]);
+ 		
+ 		this.producer;
+    
+
+    	this.increaseCosts = function() {
+
+    		cookie.quan = cookie.quan - producer_costs[x]; 	
+    		producer_costs[x] = Math.round(this.costs * factor);
+
+    	};
+    	
+    	this.increase = function(){
+			
+			cookiequan[x] = cookiequan[x]+1;
+		
+		};
+    	this.count = function(){
+    		
+   			return cookiepersec[x];
+   
+    	};
+    	
+  	}
+	
+function Round(n, k){
+
+	var factor = Math.pow(10, k);
+	return Math.round(n*factor)/factor;
+
+}
+
+
+
+
+ 	function countCookiesPerSecond(cookiepersec){
+
+ 		val = val + cookiepersec;
+
+ 		persecond.textContent = Round(val,1);	
+ 		
+ 	}
+ 	function addCostInfo(x){
+
+ 		var cost = document.getElementsByClassName('cost')[x];
+ 		cost.textContent = Math.round(producer_costs[x]*factor);
+ 	}
+ 	function howManyCookies(x){
+
+ 		var cookies_from_producer_target = document.getElementsByClassName('product')[x];
+ 		var cookies_from_producer = cookiepersec[x] * cookiequan[x];
+ 		//nie zmieniac fixed
+ 		cookies_from_producer_target.textContent = Round(cookies_from_producer,1);
+ 		cookies[x] = cookies_from_producer;
+ 		
+ 		
+
+ 	}
+ 	function addValueProducers(x){
+
+ 		var value = document.getElementsByClassName('value')[x];
+ 		value.textContent = Math.round(cookiequan[x]);
+ 	}
+ 	function updateProduceArray(x){
+
+ 		var values = cookiepersec[x] * cookiequan[x];
+ 		document.getElementsByClassName('product')[x].textContent = cookiepersec[x].toFixed(1);
+ 	
+ 	}
+
+ 	function createBody(producer_costs){
+ 		var target = document.getElementById('target');
+ 		const cls = ['cost_info','cost','product_info','product','zero_info','zero','value_info','value'];
+ 		//2. Dodanie nazwy ikony odpowiadającej producentowi, którą należy umieścić w katalogu icons
+ 		const names = ['cursor.png','grandma.png','bakery.png','farm.png','mine.png'];
+ 		var cell;
+ 		var img;
+ 
+ 		var div;
+ 		var span;
+ 		for (let i = 0; i<producer_costs.length;i++){
+ 			cell = document.createElement('div');
+ 			cell.classList.add('cell');
+ 			img = document.createElement('img');
+ 			img.src = 'icons/'+names[i];
+ 			img.classList.add('menubutton');
+ 			div = document.createElement('div');
+ 			cookies[i] = 0;
+ 			cookiequan[i] = 0;
+
+ 			for (let i = 0;i<8;i++){
+ 			
+ 				span = document.createElement('span');
+ 				span.classList.add(cls[i])
+ 				div.classList.add('menudiv');
+ 				div.appendChild(span);
+ 				
+ 			}
+ 			
+ 			cell.appendChild(img);
+ 			cell.appendChild(div);
+ 			
+ 			target.appendChild(cell);
+ 			
+ 		}
+ 		var span_cost_info = document.getElementsByClassName('cost_info')
+ 		var span_cost = document.getElementsByClassName('cost');
+
+ 		var span_product_info = document.getElementsByClassName('product_info');
+ 		var span_product = document.getElementsByClassName('product');
+ 		
+ 		var span_product_zero_info = document.getElementsByClassName('zero_info')
+ 		var span_product_zero = document.getElementsByClassName('zero')
+
+ 		var span_value_info = document.getElementsByClassName('value_info');
+ 		var span_value = document.getElementsByClassName('value');
+
+ 		for (let i = 0; i<producer_costs.length;i++){
+ 			span_cost_info[i].textContent = 'Koszt producenta'; 
+ 			span_cost[i].textContent = producer_costs[i];
+ 			
+ 			span_product_info[i].textContent = 'Produkcja';
+ 			span_product[i].textContent = '0';
+ 			
+ 			span_product_zero_info[i].textContent = 'Produkowane';
+ 			span_product_zero[i].textContent = cookiepersec[i];
+ 			
+ 			span_value_info[i].textContent = 'Ilość posiadanych producentów';
+ 			span_value[i].textContent = cookies[i];
+
+ 		}
+
+ 	}
+   
+    function addEvent(){
+
+    	
+    	var array = ['cursor','granny'];
+		for (var i = 0; i <= items.length-1; i++){
+  			
+  			(function(x) {
+  			items[x].addEventListener('click', function(e){
+    			
+    			
+    			if (producer_costs[x] <= cookie.quan) {
+    			
+    				addCostInfo(x);
+    				array[x] = new dataObject(x);
+    				array[x].increaseCosts();
+    				array[x].increase();
+    			
+					var cookiepers = array[x].count();
+					countCookiesPerSecond(cookiepers);
+    				updateProduceArray(x);
+    				howManyCookies(x);
+    				addValueProducers(x);	
+    			
+    			}	
+    		    			
+  			})
+  			})(i);
+			}
+		}
+
+
+
+//baza
+function saveToDB(){
+	var indexedDB = window.indexedDB || window.mozIndexedDB || window.webkitIndexedDB || window.msIndexedDB || window.shimIndexedDB;
+
+
+var open = indexedDB.open("DataStore", 1);
+
+
+open.onupgradeneeded = function() {
+    var db = open.result;
+    var store = db.createObjectStore("DataStore", {keyPath: "id"});
+    var index = store.createIndex("NameIndex", ["data.first", "data.second","data.third"]);
+};
+
+open.onsuccess = function() {
+   
+    var db = open.result;
+    var tx = db.transaction("DataStore", "readwrite");
+    var store = tx.objectStore("DataStore");
+    var index = store.index("NameIndex");
+
+
+    store.put({id: 1, data: {first: producer_costs, second: cookiequan, third: cookiesowned.textContent}});
+  
+    
+  
+
+    
+
+  
+    tx.oncomplete = function() {
+        db.close();
+    };
+}
+}
+function loadFromDB(){
+	var indexedDB = window.indexedDB || window.mozIndexedDB || window.webkitIndexedDB || window.msIndexedDB || window.shimIndexedDB;
+
+
+	var open = indexedDB.open("DataStore", 1);
+
+	open.onsuccess = function() {
+
+    var db = open.result;
+    var tx = db.transaction("DataStore", "readwrite");
+    var store = tx.objectStore("DataStore");
+    var index = store.index("NameIndex");
+
+
+    var getData = store.get(1);
+    
+
+    getData.onsuccess = function() {
+
+    	let array = getData.result.data.first;
+        for (let i = 0;i<array.length ;i++){
+        	producer_costs[i] = array[i];
+        	document.getElementsByClassName('cost')[i].textContent = producer_costs[i].toFixed(0);
+        	
+        } 
+        array = getData.result.data.second;
+        cookiequan = array;
+   		var quan = [];
+   		for (let i =0; i<cookies.length;i++){
+   			
+   			quan[i] = cookiepersec[i]*array[i];
+   			if (!isNaN(quan[[i]])){
+   				countCookiesPerSecond(quan[i]);
+   				
+   				document.getElementsByClassName('product')[i].textContent = quan[i];
+   			}
+   
+        }
+        cookie.quan = parseInt(getData.result.data.third);
+        for (let i = 0 ; i<cookiequan.length;i++){
+        	addValueProducers(i);
+        }
+    };
+
+    
+
+    tx.oncomplete = function() {
+        db.close();
+    };
+
+
+}
+}
+createBody(producer_costs);
+document.getElementById('save').addEventListener('click', saveToDB);
+
+cookie.incresepersec();
+	 document.getElementById('clicker').addEventListener('click', function(){
+		cookie.increase();
+	});
+
+
+function setCookie(cname, cvalue, exdays) {
+    var d = new Date();
+    d.setTime(d.getTime() + (exdays*24*60*60*1000));
+    var expires = "expires="+ d.toUTCString();
+    document.cookie = cname + "=" + cvalue + ";" + expires + ";path=/";
+}
+
+function getCookie(cname) {
+    var name = cname + "=";
+    var decodedCookie = decodeURIComponent(document.cookie);
+    var ca = decodedCookie.split(';');
+    for(var i = 0; i <ca.length; i++) {
+        var c = ca[i];
+        while (c.charAt(0) == ' ') {
+            c = c.substring(1);
+        }
+        if (c.indexOf(name) == 0) {
+            return c.substring(name.length, c.length);
+        }
+    }
+    return "";
+}
+
+
+function checkCookie(){
+	var check = getCookie('user');	
+	
+	if (check === 'game') {
+		return;
+	}
+	else{
+		setCookie('user','game',180);
+		$('.cookie_alert').slideDown(600);
+	}
+}
+loadFromDB();
+checkCookie();
+addEvent();
+   
+  	
+});
+  $(document).ready(function(){
+  	$(".menubutton").hover(function(){
+  		$(this).fadeTo(10,1, function(){
+  			$(this.nextSibling).slideDown("fast");	
+  		});
+    	
+    	
+    }, function(){
+    	$(this).fadeTo(10, 0.5, function(){
+    		$(this.nextSibling).slideUp("fast");	
+    	});
+	});
+
+	$('#close').click(function(){
+		$(this.parentNode).slideUp(600);
+	});
+  });
+
+
+    
+
+</script>
+
+	
+</body>
+</html>
