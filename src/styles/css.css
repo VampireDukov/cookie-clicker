@@ -5,10 +5,14 @@ body,html{
 	max-width: 1600px;
 	margin: auto;
 }
-
-h1,h2,h3{
+h1{
 	font-family: 'Aguafina Script', sans-serif;
+}
+h1,h2,h3{
+	font-family: sans-serif;
 	letter-spacing: 2px;
+	font-style: italic;
+	font-weight: bold;
 }
 div.cookie_alert{
 	font-family: sans-serif;
