@@ -120,7 +120,6 @@ window.addEventListener("DOMContentLoaded", function(){
    		};
     }
 
-
 	function Round(n, k){
 
 		var factor = Math.pow(10, k);
@@ -309,16 +308,15 @@ window.addEventListener("DOMContentLoaded", function(){
 	function checkCookie(){
 		var check = getCookie('user');	
 		if (check === 'game') {
-			return;
+			loadFromDB();
 		}
 		else{
 			setCookie('user','game',180);
 			$('.cookie_alert').slideDown(600);
 			
-			
+			saveToDB();
 		}
 	}
-	loadFromDB();
 	
 	checkCookie();
 	addEvent();
