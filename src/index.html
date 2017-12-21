@@ -104,7 +104,10 @@ window.addEventListener("DOMContentLoaded", function(){
 			}, 1000);
 		},
 	}
-
+	/**
+	* konstruktor obiektu producenta
+	*@var x typ cos
+	**/
 	function dataObject (x) {
 		this.costs = Math.round(producer_costs[x]);
  		this.producer;
@@ -119,7 +122,9 @@ window.addEventListener("DOMContentLoaded", function(){
     		return cookiepersec[x];
    		};
     }
-
+	/** funkcja zaokrąglająca
+	* @n v
+	**/
 
 	function Round(n, k){
 
@@ -227,16 +232,16 @@ window.addEventListener("DOMContentLoaded", function(){
 //baza
 	function saveToDB(){
 		var indexedDB = window.indexedDB || window.mozIndexedDB || window.webkitIndexedDB || window.msIndexedDB || window.shimIndexedDB;
-		var open = indexedDB.open("DataStore", 7);
+		var open = indexedDB.open("DataForge", 14);
 		open.onupgradeneeded = function() {
     		var db = open.result;
-    		var store = db.createObjectStore("DataStore", {keyPath: "id"});
+    		var store = db.createObjectStore("DataForge", {keyPath: "id"});
     		var index = store.createIndex("NameIndex", ["data.first", "data.second","data.third"]);
 		};
 		open.onsuccess = function() {
    			var db = open.result;
-    		var tx = db.transaction("DataStore", "readwrite");
-    		var store = tx.objectStore("DataStore");
+    		var tx = db.transaction("DataForge", "readwrite");
+    		var store = tx.objectStore("DataForge");
     		var index = store.index("NameIndex");
 			store.put({id: 1, data: {first: producer_costs, second: cookiequan, third: cookiesowned.textContent}});
 			tx.oncomplete = function() {
@@ -246,11 +251,17 @@ window.addEventListener("DOMContentLoaded", function(){
 	}
 	function loadFromDB(){
 		var indexedDB = window.indexedDB || window.webkitIndexedDB || window.msIndexedDB || window.shimIndexedDB;
-		var open = indexedDB.open("DataStore", 7);
+		var open = indexedDB.open("DataForge", 14);
+
+		open.onupgradeneeded = function() {
+    		var db = open.result;
+    		var store = db.createObjectStore("DataForge", {keyPath: "id"});
+    		var index = store.createIndex("NameIndex", ["data.first", "data.second","data.third"]);
+		};
 		open.onsuccess = function() {
 			var db = open.result;
-    		var tx = db.transaction("DataStore", "readwrite");
-    		var store = tx.objectStore("DataStore");
+    		var tx = db.transaction("DataForge", "readwrite");
+    		var store = tx.objectStore("DataForge");
     		var index = store.index("NameIndex");
 			var getData = store.get(1);
     		getData.onsuccess = function() {
@@ -315,11 +326,10 @@ window.addEventListener("DOMContentLoaded", function(){
 			setCookie('user','game',180);
 			$('.cookie_alert').slideDown(600);
 			
-			
+			saveToDB();
 		}
 	}
 	loadFromDB();
-	
 	checkCookie();
 	addEvent();
 });
