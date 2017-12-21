@@ -11,9 +11,6 @@ How to used:
 - cookies producers will increase cookies per second
 - click on floppy icon to save game
 
-COOKIES AND DATABASE DOESN'T WORK LOCALLY, it works only in server. Checked on Chromium Web Browser and Mozilla Firefox on Fedora Workstation.
-
-IF DATABASE DOESN'T WORK ON REMOTE SERVER OR LOCAL SERVER TRY CLOSE TABS AND DELETE COOKIES FROM dukov.pl 
 
 Demo:
 http://dukov.pl/clicker
@@ -30,7 +27,3 @@ Jak grać?
 - po najechaniu na ikonę producenta wysuną się dane nt. ile producent kosztuje, ile ich posiadamy oraz ile ciastek produkuje
 - aby kupić producenta na ikonę należy kliknąć
 - kliknij na ikonę dyskietki aby zapisać grę
-
-CIASTECZKA I ZAPIS DO BAZY NIE DZIAŁAJĄ PO ZWYKŁYM ŚCIĄGNIĘCIU PLIKU I DWUKLIKU NA index.html, NALEŻY POSTAWIĆ SERWER, LUB WEJŚĆ W PODANEGO WYŻEJ LINKA
-
-JEŚLI NIE DZIAŁA ZAPIS DO BAZY DANYCH NA SERWERZE ZDALNYM, BĄDŹ APACHE ZAMKNIJ WSZYSTKIE KART I WYCZYĆ CIASTECZKA Z DOMENY dukov.pl
