@@ -104,10 +104,6 @@ window.addEventListener("DOMContentLoaded", function(){
 			}, 1000);
 		},
 	}
-	/**
-	* konstruktor obiektu producenta
-	*@var x typ cos
-	**/
 	function dataObject (x) {
 		this.costs = Math.round(producer_costs[x]);
  		this.producer;
@@ -122,10 +118,6 @@ window.addEventListener("DOMContentLoaded", function(){
     		return cookiepersec[x];
    		};
     }
-	/** funkcja zaokrąglająca
-	* @n v
-	**/
-
 	function Round(n, k){
 
 		var factor = Math.pow(10, k);
@@ -293,7 +285,7 @@ window.addEventListener("DOMContentLoaded", function(){
 	createBody(producer_costs);
 	document.getElementById('save').addEventListener('click', saveToDB);
 	cookie.incresepersec();
-		document.getElementById('clicker').addEventListener('click', function(){
+	document.getElementById('clicker').addEventListener('click', function(){
 			cookie.increase();
 		});
 	function setCookie(cname, cvalue, exdays) {
